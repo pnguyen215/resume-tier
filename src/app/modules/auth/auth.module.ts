@@ -10,6 +10,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { AuthComponent } from './auth.component';
 import { TranslationModule } from '../i18n/translation.module';
 import { ResumeSignInModule } from 'src/app/resume/modules/resume-sign-in.module';
+import { CommonServicesModule } from 'src/app/global/commons/common-services.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ResumeSignInModule } from 'src/app/resume/modules/resume-sign-in.module
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ResumeSignInModule
+    ResumeSignInModule,
+    CommonServicesModule
   ]
 })
 export class AuthModule { }

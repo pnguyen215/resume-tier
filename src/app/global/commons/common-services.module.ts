@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthResumeService } from 'src/app/resume/services/auth-resume.service';
 
 @NgModule({
   imports: [
@@ -10,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [
     // custom service here!
+    AuthResumeService
   ]
 })
 export class CommonServicesModule { }

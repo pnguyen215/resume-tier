@@ -6,6 +6,7 @@ import { AuthModel } from '../_models/auth.model';
 import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { BlibsAuthenticationService } from 'ngx-blibs-api';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,7 @@ export class AuthService implements OnDestroy {
 
   constructor(
     private authHttpService: AuthHTTPService,
+    private blibsAuthenticationService: BlibsAuthenticationService,
     private router: Router
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
@@ -61,6 +63,7 @@ export class AuthService implements OnDestroy {
 
   logout() {
     localStorage.removeItem(this.authLocalStorageToken);
+    this.blibsAuthenticationService.logout();
     this.router.navigate(['/auth/login'], {
       queryParams: {},
     });
