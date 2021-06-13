@@ -1,0 +1,53 @@
+<ng-container *ngIf="isLoading">
+    <div class="progress progress-modal">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+            style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</ng-container>
+
+<div class="modal-header">
+    <h4 class="modal-title">{{titleObj}}
+    </h4>
+    <div class="symbol symbol-20 mr-2">
+        <img src="https://img.icons8.com/fluent/48/000000/security-ssl.png" />
+    </div>
+    <span class="label label-rounded label-primary label-pill label-inline ml-2">Dev
+        mode
+    </span>
+
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <div *ngIf="objs?.length > 0">
+        <p>
+            <span class="label label-rounded mr-2">{{objs.length}}</span>
+            {{titleObjIds}}:
+            <span *ngFor="let one of objs" class="label label-rounded label-info mr-2">{{one.id}}</span>
+        </p>
+        <hr>
+    </div>
+
+    <perfect-scrollbar style="height: 350px;">
+        <div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true">
+            <textarea autoWrap [innerHTML]="objs | prettyJson" class="noscrollbars form-control form-control-solid">
+            <!-- <pre [innerHTML]="objs | prettyJson">
+            </pre> -->
+            </textarea>
+        </div>
+
+    </perfect-scrollbar>
+</div>
+<div *ngIf="objs?.length > 0" class="modal-footer">
+    <a (click)="copyContent(objs)" (click)="openSnackBar(titleObj,'Coppied')" ngbTooltip="Copy" placement="top"
+        class="btn btn-icon btn-light-warning mr-2">
+        <i class="flaticon2-copy"></i>
+    </a>
+    <!-- <a (click)="exportObjsCsv()" class="btn btn-light-success font-weight-bold mr-2">
+        <i class="flaticon2-open-box"></i>Snap CSV</a> -->
+    <a (click)="exportObjsJson()" class="btn btn-light-primary font-weight-bold mr-2">
+        <i class="flaticon2-open-box"></i>Snap Json</a>
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+</div>
