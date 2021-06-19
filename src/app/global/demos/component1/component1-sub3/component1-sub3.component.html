@@ -1,0 +1,25 @@
+<div class="container is-full custom-card">
+    <div class="columns">
+        <div class="column is-6 font-weight-bolder">{{taskModel?.company}}</div>
+        <div class="column is-2 is-offset-4">
+            <p placement="left" ngbTooltip="Job" class="text-dark-50">
+                {{taskModel?.jobsTitle}}
+            </p>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <span placement="top"
+                [ngbTooltip]="taskModel?.locationOrAddressCompany ? taskModel?.locationOrAddressCompany : 'undefined'"
+                [inlineSVG]="'./assets/media/svg/icons/Map/Marker1.svg'" cacheSVG="true" [class]="taskModel?.locationOrAddressCompany ? 
+                'svg-icon svg-icon-primary menu-icon' : 
+                'svg-icon menu-icon'"></span>
+        </div>
+        <div class="col-8 text-right">
+            <span placement="left" [ngbTooltip]="logSalary(taskModel?.salary)"
+                [inlineSVG]="'./assets/media/svg/icons/Shopping/Dollar.svg'" cacheSVG="true"
+                class="svg-icon  svg-icon-success menu-icon"></span>
+        </div>
+    </div>
+</div>

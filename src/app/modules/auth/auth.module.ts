@@ -9,7 +9,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LogoutComponent } from './logout/logout.component';
 import { AuthComponent } from './auth.component';
 import { TranslationModule } from '../i18n/translation.module';
-import { ResumeSignInModule } from 'src/app/resume/modules/resume-sign-in.module';
 import { CommonServicesModule } from 'src/app/global/commons/common-services.module';
 
 @NgModule({
@@ -27,7 +26,6 @@ import { CommonServicesModule } from 'src/app/global/commons/common-services.mod
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ResumeSignInModule,
     CommonServicesModule
   ]
 })

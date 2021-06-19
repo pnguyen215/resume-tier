@@ -1,0 +1,51 @@
+export class ResumeEndpoint {
+    public static ENDPOINT_JOBS_TRACKING_URL = '/api/v11/jobs-tracking';
+    public static ENDPOINT_JOBS_TRACKING_GET_ALL = '/';
+    public static ENDPOINT_JOBS_TRACKING_GET_ONE_ENABLE = '/one-enable';
+    public static ENDPOINT_JOBS_TRACKING_GET_ONE_DISABLE = '/one-disable';
+    public static ENDPOINT_JOBS_TRACKING_GET_ONE_ARCHIVED = '/one-archived';
+    public static ENDPOINT_JOBS_TRACKING_CREATE_ONE = '/new';
+    public static ENDPOINT_JOBS_TRACKING_UPDATE_ONE = '/upgrade';
+    public static ENDPOINT_JOBS_TRACKING_DELETE_ONE = '/one';
+    public static ENDPOINT_JOBS_TRACKING_DELETE_ALL = '/all';
+    public static ENDPOINT_JOBS_TRACKING_ENABLE = '/all-jobs-tracking-enable';
+    public static ENDPOINT_JOBS_TRACKING_DISABLE = '/all-jobs-tracking-disable';
+    public static ENDPOINT_JOBS_TRACKING_ARCHIVED = '/all-jobs-tracking-archived';
+    public static ENDPOINT_JOBS_TRACKING_COUNT_ENABLE = '/count-jobs-tracking-enable';
+    public static ENDPOINT_JOBS_TRACKING_COUNT_INCLUDE_ARCHIVED_ENABLE = '/count-jobs-tracking-include-archived-enable';
+    public static ENDPOINT_JOBS_TRACKING_COUNT_ARCHIVED = '/count-jobs-tracking-archived';
+    public static ENDPOINT_JOBS_TRACKING_COUNT_DISABLE = '/count-jobs-tracking-disable';
+    public static ENDPOINT_JOBS_TRACKING_CHECK_EXIST = '/check-jobs-tracking-existed';
+
+
+    public static ENDPOINT_JOBS_URL = '/api/v12/jobs';
+    public static ENDPOINT_JOBS_GET_ALL = '/';
+    public static ENDPOINT_JOBS_GET_ONE = '/one';
+    public static ENDPOINT_JOBS_CREATE_ONE = '/new';
+    public static ENDPOINT_JOBS_UPDATE_ONE = '/update';
+    public static ENDPOINT_JOBS_DELETE_ONE = '/one';
+    public static ENDPOINT_JOBS_DELETE_ALL = '/all';
+    public static ENDPOINT_JOBS_ENABLE = '/all-jobs-enable';
+    public static ENDPOINT_JOBS_DISABLE = '/all-jobs-disable';
+    public static ENDPOINT_JOBS_ARCHIVED = '/all-jobs-archived';
+    public static ENDPOINT_JOBS_USER_ENABLED = '/user-enabled';
+    public static ENDPOINT_JOBS_USER_DISABLED = '/user-disabled';
+    public static ENDPOINT_JOBS_USER_ARCHIVED = '/user-archived';
+    public static ENDPOINT_JOBS_CHECK_EXIST_COMPANY = '/check-company';
+    public static ENDPOINT_JOBS_COUNT_ENABLE = '/count-jobs-enable';
+    public static ENDPOINT_JOBS_COUNT_ENABLE_INCLUDE_ARCHIVED = '/count-jobs-enable-include-archived';
+    public static ENDPOINT_JOBS_COUNT_ARCHIVED = '/count-jobs-archived';
+    public static ENDPOINT_JOBS_COUNT_DISABLE = '/count-jobs-disable';
+    public static ENDPOINT_JOBS_WITH_JOBS_TRACKING_ID = '/{jobsTrackingId}';
+    public static ENDPOINT_JOBS_ENABLE_INCLUDE_JOBS_TRACKING_ID = '/all/{jobsTrackingId}/jobs-current-enable';
+    public static ENDPOINT_JOBS_DISABLE_INCLUDE_JOBS_TRACKING_ID = '/all/{jobsTrackingId}/jobs-current-disable';
+    public static ENDPOINT_JOBS_ARCHIVED_INCLUDE_JOBS_TRACKING_ID = '/all/{jobsTrackingId}/jobs-current-archived';
+    public static ENDPOINT_JOBS_COUNT_ENABLE_INCLUDE_JOBS_TRACKING_ID = '/count-all/{jobsTrackingId}/jobs-current-enable';
+    public static ENDPOINT_JOBS_COUNT_ENABLE_INCLUDE_JOBS_TRACKING_ID_WITHOUT_ARCHIVED = '/count-all/{jobsTrackingId}/jobs-current-enable-without-archived';
+    public static ENDPOINT_JOBS_COUNT_ARCHIVED_INCLUDE_JOBS_TRACKING_ID = '/count-all/{jobsTrackingId}/jobs-current-archived';
+    public static ENDPOINT_JOBS_COUNT_DISABLE_INCLUDE_JOBS_TRACKING_ID = '/count-all/{jobsTrackingId}/jobs-current-disable';
+    public static ENDPOINT_JOBS_DELETE_ONE_INCLUDE_JOBS_TRACKING_ID = '/one/{jobsTrackingId}/jobs-discard';
+    public static ENDPOINT_JOBS_CREATE_ONE_INCLUDE_JOBS_TRACKING_ID = '/jobs-tracking/{jobsTrackingId}/jobs';
+    public static ENDPOINT_JOBS_UPDATE_ONE_INCLUDE_JOBS_TRACKING_ID = '/jobs-tracking/{jobsTrackingId}/{id}/jobs';
+    public static ENDPOINT_JOBS_GET_ONE_INCLUDE_JOBS_TRACKING_ID = '/{jobsTrackingId}';
+}

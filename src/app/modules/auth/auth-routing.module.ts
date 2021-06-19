@@ -5,7 +5,6 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LogoutComponent } from './logout/logout.component';
-import { ResumeSignInComponent } from 'src/app/resume/modules/resume-sign-in/resume-sign-in.component';
 
 
 const routes: Routes = [
@@ -21,7 +20,6 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent,
-        // component: ResumeSignInComponent,
         data: { returnUrl: window.location.pathname }
       },
       {
