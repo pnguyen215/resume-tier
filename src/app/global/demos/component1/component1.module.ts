@@ -6,13 +6,15 @@ import { Component1Sub1Component } from './component1-sub1/component1-sub1.compo
 import { Component1Sub2Component } from './component1-sub2/component1-sub2.component';
 import { CardModule } from '../../modules/card/card.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { NgbModalModule, NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbDatepickerModule, NgbModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { CommonServicesModule } from '../../commons/common-services.module';
 import { BlibsLogDevModule } from '../../modules/blibs-log-dev/blibs-log-dev.module';
 import { BlibsTableModule } from '../../modules/blibs-table/blibs-table.module';
+import { Component1Sub4Component } from './component1-sub4/component1-sub4.component';
 import { Component1Sub3Component } from './component1-sub3/component1-sub3.component';
+import { EditorModule } from 'primeng/editor';
 
 @NgModule({
   imports: [
@@ -30,21 +32,26 @@ import { Component1Sub3Component } from './component1-sub3/component1-sub3.compo
     PerfectScrollbarModule,
     BlibsTableModule,
     BlibsLogDevModule,
+    NgbTimepickerModule,
+    EditorModule
   ],
   declarations: [
     Component1Sub1Component,
     Component1Sub2Component,
-    Component1Sub3Component
+    Component1Sub3Component,
+    Component1Sub4Component
   ],
   entryComponents: [
     Component1Sub1Component,
     Component1Sub2Component,
-    Component1Sub3Component
+    Component1Sub3Component,
+    Component1Sub4Component
   ],
   exports: [
     Component1Sub1Component,
     Component1Sub2Component,
-    Component1Sub3Component
+    Component1Sub3Component,
+    Component1Sub4Component
   ]
 })
 export class Component1Module { }

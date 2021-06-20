@@ -1,0 +1,385 @@
+<ng-container *ngIf="isLoading">
+    <div class="progress progress-modal">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+            style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</ng-container>
+
+<div class="modal-content">
+
+    <!-- begin::Header -->
+    <div class="modal-header">
+        <div class="row">
+            Jobs ID:
+            <span class="label label-success pulse pulse-warning mr-2 ml-2">
+                <span class="position-relative">{{jobs.id}}</span>
+                <span class="pulse-ring"></span>
+            </span>
+        </div>
+        <div class="modal-title" id="example-modal-sizes-title-lg">
+            <ng-container>
+                <p class="font-weight-bolder">
+                    <span class="label label-inline pulse pulse-success label-rounded label-outline-success mr-2 ">
+                        <span class="position-relative font-weight-bolder"> {{jobs.jobsTitle}} </span>
+                        <span class="pulse-ring"></span>
+                    </span>
+                </p>
+            </ng-container>
+        </div>
+    </div>
+    <!-- end::Header -->
+
+    <!-- begin::Content -->
+    <perfect-scrollbar style="height: 500px;">
+        <div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true">
+            <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+                <!-- begin::Proccess -->
+                <ng-container *ngIf="isLoading$ | async">
+                    <div class="overlay-layer bg-transparent">
+                        <div class="spinner spinner-lg spinner-success"></div>
+                    </div>
+                </ng-container>
+                <!-- end::Proccess -->
+
+                <ng-container *ngIf="jobs">
+                    <form action="#" class="form form-label-right" [formGroup]="formGroup">
+
+                        <!-- begin::Row 1 -->
+                        <div class="form-group row">
+                            <!-- begin::Logo Company -->
+                            <div class="col-lg-1">
+                                <div class="symbol symbol-40">
+                                    <label class="form-label">Logo</label>
+                                    <img alt="Logo Company" src="./assets/media/users/100_1.jpg" />
+                                </div>
+                            </div>
+                            <!-- begin::Logo Company -->
+
+                            <!-- begin::Company -->
+                            <div class="col-lg-4">
+                                <label class="form-label">Company</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="company" placeholder="Company" autocomplete="off" formControlName="company"
+                                    [class.is-invalid]="isControlInvalid('company')"
+                                    [class.is-valid]="isControlValid('company')" />
+                            </div>
+                            <!-- end::Company -->
+
+                            <!-- begin:: Jobs Title -->
+                            <div class="col-lg-3">
+                                <label class="form-label">Job Title</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="jobsTitle" placeholder="Job Title" autocomplete="off"
+                                    formControlName="jobsTitle" [class.is-invalid]="isControlInvalid('jobsTitle')"
+                                    [class.is-valid]="isControlValid('jobsTitle')" />
+                            </div>
+                            <!-- end:: Jobs Title -->
+
+                            <!-- begin::Salary -->
+                            <div class="col-lg-2">
+                                <label class="form-label"> Annual Salary ($)
+                                </label>
+                                <input type="number" class="form-control form-control-lg form-control-solid"
+                                    name="salary" placeholder="Annual Salary" autocomplete="off"
+                                    formControlName="salary" [class.is-invalid]="isControlInvalid('salary')"
+                                    [class.is-valid]="isControlValid('salary')" />
+                            </div>
+                            <!-- end::Salary -->
+
+                            <!-- begin::Name Status After interview -->
+                            <div class="col-lg-2">
+                                <label class="form-label">Status Interview</label>
+                                <input id="typeahead-focus" type="text"
+                                    class="form-control form-control-lg form-control-solid"
+                                    [(ngModel)]="statusInterview" formControlName="nameStatusJobAfterInterview"
+                                    [ngbTypeahead]="searchText" (focus)="focus$.next($event.target.value)"
+                                    (click)="click$.next($event.target.value)" #instance="ngbTypeahead" readonly="true"
+                                    autocomplete="off"
+                                    [class.is-invalid]="isControlInvalid('nameStatusJobAfterInterview')"
+                                    [class.is-valid]="isControlValid('nameStatusJobAfterInterview')" />
+                            </div>
+                            <!-- end::Name Status After interview -->
+                        </div>
+                        <!-- end::Row 1 -->
+
+                        <!-- begin::Row 2 -->
+                        <div class="form-group row">
+                            <!-- begin::Link Of Company -->
+                            <div class="col-lg-5">
+                                <label class="form-label">Link Company
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="linkOfCompany" placeholder="http://..." autocomplete="off"
+                                    formControlName="linkOfCompany"
+                                    [class.is-invalid]="isControlInvalid('linkOfCompany')"
+                                    [class.is-valid]="isControlValid('linkOfCompany')" />
+                            </div>
+                            <!-- end::Link Of Company -->
+
+                            <!-- begin::Address Of Company -->
+                            <div class="col-lg-7">
+                                <label class="form-label">Address Company
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="locationOrAddressCompany" placeholder="Address Company" autocomplete="off"
+                                    formControlName="locationOrAddressCompany"
+                                    [class.is-invalid]="isControlInvalid('locationOrAddressCompany')"
+                                    [class.is-valid]="isControlValid('locationOrAddressCompany')" />
+                            </div>
+                            <!-- end::Address Of Company -->
+                        </div>
+                        <!-- end::Row 2 -->
+
+                        <!-- begin::Row 3 -->
+                        <div class="form-group row">
+                            <!-- begin::interviewTime -->
+                            <div class="col-lg-2">
+                                <label class="form-label">Interview Time</label>
+                                <div class="input-group input-group-solid">
+                                    <input type="text" name="interviewTime" formControlName="interviewTime"
+                                        class="form-control form-control-lg form-control-solid" autocomplete="off"
+                                        placeholder="dd/mm/yyyy" ngbDatepicker #d="ngbDatepicker"
+                                        [class.is-invalid]="isControlInvalid('interviewTime')"
+                                        [class.is-valid]="isControlValid('interviewTime')" readonly="true" />
+                                    <div class="input-group-append" (click)="d.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50 flaticon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- end::interviewTime -->
+
+                            <!-- begin::interviewResponseTime -->
+                            <div class="col-lg-2">
+                                <label class="form-label">IR Time</label>
+                                <div class="input-group input-group-solid">
+                                    <input type="text" name="interviewResponseTime"
+                                        formControlName="interviewResponseTime"
+                                        class="form-control form-control-lg form-control-solid" autocomplete="off"
+                                        placeholder="dd/mm/yyyy" ngbDatepicker #e="ngbDatepicker"
+                                        [class.is-invalid]="isControlInvalid('interviewResponseTime')"
+                                        [class.is-valid]="isControlValid('interviewResponseTime')" readonly="true" />
+                                    <div class="input-group-append" (click)="e.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50 flaticon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end::interviewResponseTime -->
+
+                            <!-- begin::startProbationaryPeriod -->
+                            <div class="col-lg-2">
+                                <label class="form-label">S.P.Period</label>
+                                <div class="input-group input-group-solid">
+                                    <input type="text" name="startProbationaryPeriod"
+                                        formControlName="startProbationaryPeriod"
+                                        class="form-control form-control-lg form-control-solid" autocomplete="off"
+                                        placeholder="dd/mm/yyyy" ngbDatepicker #f="ngbDatepicker"
+                                        [class.is-invalid]="isControlInvalid('startProbationaryPeriod')"
+                                        [class.is-valid]="isControlValid('startProbationaryPeriod')" readonly="true" />
+                                    <div class="input-group-append" (click)="f.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50 flaticon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end::startProbationaryPeriod -->
+
+                            <!-- begin::endOfProbationaryPeriod -->
+                            <div class="col-lg-2">
+                                <label class="form-label">E.P.Period</label>
+                                <div class="input-group input-group-solid">
+                                    <input type="text" name="endOfProbationaryPeriod"
+                                        formControlName="endOfProbationaryPeriod"
+                                        class="form-control form-control-lg form-control-solid" autocomplete="off"
+                                        placeholder="dd/mm/yyyy" ngbDatepicker #g="ngbDatepicker"
+                                        [class.is-invalid]="isControlInvalid('endOfProbationaryPeriod')"
+                                        [class.is-valid]="isControlValid('endOfProbationaryPeriod')" readonly="true" />
+                                    <div class="input-group-append" (click)="g.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50 flaticon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end::endOfProbationaryPeriod -->
+
+                            <!-- begin::startWorkingOn -->
+                            <div class="col-lg-2">
+                                <label class="form-label">S.W.O</label>
+                                <div class="input-group input-group-solid">
+                                    <input type="text" name="startWorkingOn" formControlName="startWorkingOn"
+                                        class="form-control form-control-lg form-control-solid" autocomplete="off"
+                                        placeholder="dd/mm/yyyy" ngbDatepicker #h="ngbDatepicker"
+                                        [class.is-invalid]="isControlInvalid('startWorkingOn')"
+                                        [class.is-valid]="isControlValid('startWorkingOn')" readonly="true" />
+                                    <div class="input-group-append" (click)="h.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50 flaticon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end::startWorkingOn -->
+
+                            <!-- begin::finishWorkOn -->
+                            <div class="col-lg-2">
+                                <label class="form-label">F.W.O</label>
+                                <div class="input-group input-group-solid">
+                                    <input type="text" name="finishWorkOn" formControlName="finishWorkOn"
+                                        class="form-control form-control-lg form-control-solid" autocomplete="off"
+                                        placeholder="dd/mm/yyyy" ngbDatepicker #i="ngbDatepicker"
+                                        [class.is-invalid]="isControlInvalid('finishWorkOn')"
+                                        [class.is-valid]="isControlValid('finishWorkOn')" readonly="true" />
+                                    <div class="input-group-append" (click)="i.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50 flaticon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end::finishWorkOn -->
+                        </div>
+                        <!-- end::Row 3 -->
+
+                        <!-- begin::Row 4 -->
+                        <div class="form-group row">
+                            <!-- begin::valueOfDurationInterviewedPeriod -->
+                            <div class="col-lg-2">
+                                <label class="form-label">Value I.R</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="valueOfDurationInterviewedPeriod" placeholder="Value I.R" autocomplete="off"
+                                    formControlName="valueOfDurationInterviewedPeriod" readonly="true" />
+                            </div>
+                            <!-- end::valueOfDurationInterviewedPeriod -->
+
+                            <!-- begin::durationInterviewedPeriod -->
+                            <div class="col-lg-2">
+                                <label class="form-label">Duration I.R</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="durationInterviewedPeriod" placeholder="Duration I.R" autocomplete="off"
+                                    formControlName="durationInterviewedPeriod" readonly="true" />
+                            </div>
+                            <!-- end::durationInterviewedPeriod -->
+
+                            <!-- begin::valueOfDurationProbationariesPeriod -->
+                            <div class="col-lg-2">
+                                <label class="form-label">Value P.Period</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="valueOfDurationProbationariesPeriod" placeholder="Value P.P"
+                                    autocomplete="off" formControlName="valueOfDurationProbationariesPeriod"
+                                    readonly="true" />
+                            </div>
+                            <!-- end::valueOfDurationProbationariesPeriod -->
+
+                            <!-- begin::durationProbationariesPeriod -->
+                            <div class="col-lg-2">
+                                <label class="form-label">Duration P.Period</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="durationProbationariesPeriod" placeholder="Duration P.Period"
+                                    autocomplete="off" formControlName="durationProbationariesPeriod" readonly="true" />
+                            </div>
+                            <!-- end::durationProbationariesPeriod -->
+
+                            <!-- begin::valueOfDurationWorkingOn -->
+                            <div class="col-lg-2">
+                                <label class="form-label">Value W.O</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="valueOfDurationWorkingOn" placeholder="Value W.O" autocomplete="off"
+                                    formControlName="valueOfDurationWorkingOn" readonly="true" />
+                            </div>
+                            <!-- end::valueOfDurationWorkingOn -->
+
+                            <!-- begin::durationWorkingOn -->
+                            <div class="col-lg-2">
+                                <label class="form-label">Duration W.O</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="durationWorkingOn" placeholder="Duration W.O" autocomplete="off"
+                                    formControlName="durationWorkingOn" readonly="true" />
+                            </div>
+                            <!-- end::durationWorkingOn -->
+                        </div>
+                        <!-- end::Row 4 -->
+
+                        <!-- begin::Row 7: Pre-Description -->
+                        <div *ngIf="!isTurnOnDescription" class="form-group row">
+                            <div class="col-lg-12">
+                                <label class="form-label">Description</label>
+                                <span (click)="openEditDescription(true)"
+                                    [inlineSVG]="'./assets/media/svg/icons/Design/Edit.svg'" cacheSVG="true"
+                                    class="svg-icon svg-icon-success menu-icon custom-span-edit ml-2"></span>
+                                <div [innerHtml]="descriptionJobs">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end::Row 7: Pre-Description -->
+
+                        <!-- begin::Row 8: Pre-Note -->
+                        <div *ngIf="!isTurnOnNote" class="form-group row">
+                            <div class="col-lg-12">
+                                <label class="form-label">Note</label>
+                                <span (click)="openEditNote(true)"
+                                    [inlineSVG]="'./assets/media/svg/icons/Design/Edit.svg'" cacheSVG="true"
+                                    class="svg-icon svg-icon-success menu-icon custom-span-edit ml-2"></span>
+                                <div [innerHtml]="noteJobs">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end::Row 8: Pre-Note -->
+
+                        <!-- begin::Row 5 -->
+                        <div *ngIf="isTurnOnDescription" class="form-group row">
+                            <!-- begin::Description -->
+                            <div class="col-lg-12">
+                                <app-card cardTitle="Pre-Description" cardClass="Pre-Description">
+                                    <!--  <label class="form-label">Description</label>
+                                        <textarea autoWrap class="noscrollbars form-control form-control-solid"
+                                            name="description" placeholder="description" autocomplete="off"
+                                            formControlName="description">
+                                        </textarea> -->
+                                    <p-editor [(ngModel)]="descriptionJobs" formControlName="description"
+                                        [style]="{'min-height':'320px'}">
+                                    </p-editor>
+                                    <button (click)="openEditDescription(false)" type="submit"
+                                        class="btn btn-primary btn-elevate mt-2">Publish</button>
+                                </app-card>
+                            </div>
+                            <!-- end::Description -->
+                        </div>
+                        <!-- end::Row 5 -->
+
+                        <!-- begin::Row 6 -->
+                        <div *ngIf="isTurnOnNote" class="form-group row">
+                            <!-- begin::Note -->
+                            <div class="col-lg-12">
+                                <app-card cardTitle="Pre-Note" cardClass="Pre-Note">
+                                    <p-editor [(ngModel)]="noteJobs" formControlName="note"
+                                        [style]="{'min-height':'320px'}">
+                                    </p-editor>
+                                    <button (click)="openEditNote(false)" type="submit"
+                                        class="btn btn-primary btn-elevate mt-2">Publish</button>
+                                </app-card>
+                            </div>
+                            <!-- end::Note -->
+                        </div>
+                        <!-- end::Row 6 -->
+
+                    </form>
+                </ng-container>
+
+            </div>
+        </div>
+    </perfect-scrollbar>
+    <!-- end::Content -->
+
+    <!-- begin::Footer -->
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="reset()">Cancel</button>
+    </div>
+    <!-- end::Footer -->
+</div>

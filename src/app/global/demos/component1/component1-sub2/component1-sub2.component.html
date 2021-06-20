@@ -5,7 +5,7 @@
 
                 <div class="columns column-title">
                     <div class="column is-10">{{jobsItem.name}}</div>
-                    <div class="column is-2">{{jobsItem.jobs.length}}</div>
+                    <div class="column is-2">{{jobsItem?.jobs.length}}</div>
                 </div>
 
                 <div class="tasks-container" cdkDropList [cdkDropListData]="jobsItem.jobs"

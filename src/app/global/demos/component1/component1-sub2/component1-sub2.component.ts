@@ -13,6 +13,8 @@ import { environment } from 'src/environments/environment';
 import { JobsResponseModel } from 'src/app/resume/model/jobs-response.model';
 import { JobsService } from 'src/app/resume/services/jobs.service';
 import { first } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component1Sub4Component } from '../component1-sub4/component1-sub4.component';
 
 @Component({
   selector: 'app-component1-sub2',
@@ -45,6 +47,7 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
   protected relativeJobsUrl = ResumeEndpoint.ENDPOINT_JOBS_URL;
 
   constructor(
+    private modalService: NgbModal,
     private dataMockService: DataMockService,
     public jobsTrackingService: JobsTrackingService,
     public jobsService: JobsService
@@ -132,12 +135,18 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
     const isUpdated = this.jobsService._createHttps('put', params, jobs).pipe(
       first()
     ).subscribe((response) => {
-      console.log('Result updated of jobs: ', JSON.stringify(response, null, 1));
+      // write logic here
+      // console.log('Result updated of jobs: ', JSON.stringify(response, null, 1));
     });
     this.subscriptions.push(isUpdated);
   }
 
   viewJobsDetails(jobs: JobsResponseModel) {
-    alert(JSON.stringify(jobs, null, 1));
+    // alert(JSON.stringify(jobs, null, 1));
+    const modalRef = this.modalService.open(Component1Sub4Component, {
+      size: 'xl'
+    });
+    modalRef.componentInstance.jobs = jobs;
   }
+
 }

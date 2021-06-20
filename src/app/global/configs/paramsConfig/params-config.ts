@@ -5,7 +5,7 @@ export class ParamsConfig {
     static readonly logoImageSidebar = 'logo-light.png'; // defind logo left aside
     static readonly backgroundSignIn = 'copy.svg'; // deind background sign in
     static readonly dateFormatedGlobal = 'dd/MM/yyyy HH:mm:ss'; // define time in this form global
-    static readonly dateFormSendToAPI = 'yyyy-MM-dd hh:mm:ss'; // send time string format to API as this form 
+    static readonly dateFormSendToAPI = 'yyyy-MM-dd HH:mm:ss'; // send time string format to API as this form 
 
     /* Setup brand global */
     static getBrand() {
