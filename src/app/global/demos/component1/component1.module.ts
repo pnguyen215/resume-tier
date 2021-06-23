@@ -15,6 +15,8 @@ import { BlibsTableModule } from '../../modules/blibs-table/blibs-table.module';
 import { Component1Sub4Component } from './component1-sub4/component1-sub4.component';
 import { Component1Sub3Component } from './component1-sub3/component1-sub3.component';
 import { EditorModule } from 'primeng/editor';
+import { Component1Sub5Component } from './component1-sub5/component1-sub5.component';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   imports: [
@@ -33,25 +35,30 @@ import { EditorModule } from 'primeng/editor';
     BlibsTableModule,
     BlibsLogDevModule,
     NgbTimepickerModule,
-    EditorModule
+    EditorModule,
+    ToastModule
   ],
   declarations: [
     Component1Sub1Component,
     Component1Sub2Component,
     Component1Sub3Component,
-    Component1Sub4Component
+    Component1Sub4Component,
+    Component1Sub5Component
   ],
   entryComponents: [
     Component1Sub1Component,
     Component1Sub2Component,
     Component1Sub3Component,
-    Component1Sub4Component
+    Component1Sub4Component,
+    Component1Sub5Component
   ],
   exports: [
     Component1Sub1Component,
     Component1Sub2Component,
     Component1Sub3Component,
-    Component1Sub4Component
+    Component1Sub4Component,
+    Component1Sub5Component,
+    ToastModule,
   ]
 })
 export class Component1Module { }

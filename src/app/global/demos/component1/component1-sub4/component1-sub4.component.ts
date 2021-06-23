@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbActiveModal, NgbDateAdapter, NgbDateParserFormatter, NgbTimepickerConfig, NgbTimeStruct, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal, NgbDateAdapter, NgbDateParserFormatter, NgbModal, NgbTimepickerConfig, NgbTimeStruct, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { BlibsBaseUtilsService } from 'ngx-blibs-api';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, delay, distinctUntilChanged, filter, finalize, map, tap } from 'rxjs/operators';
@@ -10,9 +10,10 @@ import { ParamsConfig } from 'src/app/global/configs/paramsConfig/params-config'
 import { ResumeEndpoint } from 'src/app/resume/endpoints/resume-endpoint';
 import { JobsResponseModel } from 'src/app/resume/model/jobs-response.model';
 import { JobsService } from 'src/app/resume/services/jobs.service';
+import { NotificationService } from 'src/app/resume/services/notification.service';
 import { CustomAdapter, CustomDateParserFormatter } from 'src/app/_metronic/core';
 import { environment } from 'src/environments/environment';
-
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 const states = [
   'PASS',
@@ -56,11 +57,13 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
 
 
   constructor(
+    private modalService: NgbModal,
     private fb: FormBuilder,
     public modal: NgbActiveModal,
     private datePipeService: DatePipe,
     private jobsService: JobsService,
-    private blibsUtilService: BlibsBaseUtilsService
+    private blibsUtilService: BlibsBaseUtilsService,
+    private notificationService: NotificationService
   ) { }
 
   searchText = (text$: Observable<string>) => {
@@ -145,12 +148,6 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
 
   loadForm() {
     this.formGroup = this.fb.group({
-      // name: [this.roleObj.name, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
-      // description: [this.roleObj.description],
-      // createdTime: [(this.isAdd || this.isWrite) ?
-      //   this.changeSymbolStateDefault(this.roleObj.createdTime) : this.changeSymbolState(this.roleObj.createdTime),
-      // Validators.compose([Validators.required])],
-      // valueOrder: [this.roleObj.valueOrder],
       createdTime: [this.jobs.createdTime],
       createdBy: [this.jobs.createdBy],
       modifiedTime: [this.jobs.modifiedTime],
@@ -158,8 +155,8 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
       deleted: [this.jobs.deleted],
       archived: [this.jobs.archived],
       description: [this.jobs.description],
-      company: [this.jobs.company],
-      jobsTitle: [this.jobs.jobsTitle],
+      company: [this.jobs.company, Validators.compose([Validators.required, Validators.minLength(5)])],
+      jobsTitle: [this.jobs.jobsTitle, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
       linkOfCompany: [this.jobs.linkOfCompany],
       locationOrAddressCompany: [this.jobs.locationOrAddressCompany],
       salary: [this.jobs.salary],
@@ -209,6 +206,15 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
     this.jobs.endOfProbationaryPeriod = this.changeSymbolStateDefault(this.handleTime(formData.endOfProbationaryPeriod, ' '));
     this.jobs.jobsTrackingId = formData.jobsTrackingId;
     this.jobs.likeStatus = formData.likeStatus;
+  }
+
+  goToLink(url: string) {
+    if (!this.blibsUtilService.areNotNull(url)) {
+      return;
+    } else {
+      window.open(url, '_blank');
+    }
+
   }
 
   /***

@@ -3,19 +3,40 @@
         <div class="board-columns" cdkDropListGroup>
             <div class="board-column" *ngFor="let jobsItem of (jobsTrackingService.item$ | async)">
 
-                <div class="columns column-title">
-                    <div class="column is-10">{{jobsItem.name}}</div>
-                    <div class="column is-2">{{jobsItem?.jobs.length}}</div>
+                <!-- begin::Header -->
+                <div class="row">
+                    <div class="col-2">
+                        <i [class]="changeStatusJobsIcon(jobsItem.jobsTrackingIndex)"></i>
+                    </div>
+                    <div class="col-8">
+                        <div class="font-weight-boldest display-5 h4">{{jobsItem.name}}</div>
+                    </div>
+                    <div class="col-2">
+                        <div class="text-right font-weight-boldest">
+                            {{jobsItem?.jobs.length}}
+                        </div>
+                    </div>
                 </div>
+                <!-- end::Header -->
 
-                <div class="tasks-container" cdkDropList [cdkDropListData]="jobsItem.jobs"
+                <!-- begin::Card -->
+                <div class="tasks-container mt-2" cdkDropList [cdkDropListData]="jobsItem.jobs"
                     (cdkDropListDropped)="dropJobs($event, jobsItem)">
                     <app-component1-sub3 (click)="viewJobsDetails(task)" cdkDrag *ngFor="let task of jobsItem.jobs"
                         [jobsTrackingId]="jobsItem.jobsTrackingIndex" [taskModel]="task">
                     </app-component1-sub3>
                 </div>
+                <!-- end::Card -->
 
+                <!-- begin::Add Job -->
+                <button (click)="openAddJobs(jobsItem)" type="button"
+                    class="btn btn-light btn-lg btn-block btn-sm font-weight-bolder">
+                    Add Job
+                </button>
+                <!-- end::Add Job -->
             </div>
+
         </div>
+
     </div>
 </div>

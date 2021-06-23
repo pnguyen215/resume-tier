@@ -4,7 +4,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Board } from 'src/app/resume/model/class/board';
 import { JobsTrackingService } from 'src/app/resume/services/jobs-tracking.service';
 import { FormGroup } from '@angular/forms';
-import { BlibsPaginatorState, BlibsSortState, BlibsGroupingState } from 'ngx-blibs-api';
+import { BlibsPaginatorState, BlibsSortState, BlibsGroupingState, BlibsBaseUtilsService } from 'ngx-blibs-api';
 import { Subscription } from 'rxjs';
 import { JobsTrackingResponseModel } from 'src/app/resume/model/jobs-tracking-response.model';
 import { HttpParams } from '@angular/common/http';
@@ -15,6 +15,9 @@ import { JobsService } from 'src/app/resume/services/jobs.service';
 import { first } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component1Sub4Component } from '../component1-sub4/component1-sub4.component';
+import { JobsTracking } from 'src/app/resume/model/enums/jobs-tracking';
+import { Component1Sub5Component } from '../component1-sub5/component1-sub5.component';
+
 
 @Component({
   selector: 'app-component1-sub2',
@@ -25,6 +28,7 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   jobsTrackings: JobsTrackingResponseModel[] = [];
+  dataJobsTracking: any[] = [];
   jobsRequest: JobsResponseModel;
   isDevMember: boolean;
   isSuperMember: boolean;
@@ -50,6 +54,7 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private dataMockService: DataMockService,
     public jobsTrackingService: JobsTrackingService,
+    private blibsUtilService: BlibsBaseUtilsService,
     public jobsService: JobsService
   ) { }
 
@@ -125,6 +130,8 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
   }
 
   common() {
+    this.dataJobsTracking = this.blibsUtilService.enumToDescriptedArray(JobsTracking)
+      .sort((a, b) => (a.id < b.id ? -1 : 1));
     this.fetchJobsTracking();
   }
 
@@ -135,18 +142,73 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
     const isUpdated = this.jobsService._createHttps('put', params, jobs).pipe(
       first()
     ).subscribe((response) => {
-      // write logic here
-      // console.log('Result updated of jobs: ', JSON.stringify(response, null, 1));
     });
     this.subscriptions.push(isUpdated);
   }
 
   viewJobsDetails(jobs: JobsResponseModel) {
-    // alert(JSON.stringify(jobs, null, 1));
     const modalRef = this.modalService.open(Component1Sub4Component, {
-      size: 'xl'
+      size: 'xl',
+      centered: true
     });
     modalRef.componentInstance.jobs = jobs;
+  }
+
+  goToLink(url: string) {
+    window.open(url, '_blank');
+  }
+
+
+  changeStatusJobsIcon(jobsTrackingIndex: number): string {
+
+    if (!this.blibsUtilService.areNotNull(jobsTrackingIndex)) {
+      return null;
+    }
+    const jobsTrackingId = this.dataJobsTracking[jobsTrackingIndex - 1].id;
+
+    if (jobsTrackingId === 1) {
+      return 'flaticon2-correct text-success font-weight-bold';
+    }
+
+    if (jobsTrackingId === 2) {
+      return 'flaticon-list text-info font-weight-bold';
+    }
+
+    if (jobsTrackingId === 3) {
+      return 'flaticon2-check-mark text-success font-weight-bold';
+    }
+
+    if (jobsTrackingId === 4) {
+      return 'flaticon2-contrast text-danger font-weight-bold';
+    }
+
+    if (jobsTrackingId === 5) {
+      return 'flaticon2-bell text-warning font-weight-bold';
+    }
+
+    if (jobsTrackingId === 6) {
+      return 'flaticon2-cancel text-muted font-weight-bold';
+    }
+
+    if (jobsTrackingId === 7) {
+      return 'flaticon2-layers-2 font-weight-bold text-primary ';
+    }
+
+    if (jobsTrackingId === 8) {
+      return 'flaticon2-bell-1 text-warning font-weight-bold';
+    }
+
+    return null;
+  }
+
+  openAddJobs(jobsTracking: JobsTrackingResponseModel) {
+    const modalRef = this.modalService.open(Component1Sub5Component, {
+      size: 'md',
+      centered: true,
+      keyboard: true,
+      animation: true
+    });
+    modalRef.componentInstance.jobsTracking = jobsTracking;
   }
 
 }

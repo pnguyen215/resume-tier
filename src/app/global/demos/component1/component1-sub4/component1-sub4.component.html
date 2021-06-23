@@ -57,21 +57,40 @@
 
                             <!-- begin::Company -->
                             <div class="col-lg-4">
-                                <label class="form-label">Company</label>
+                                <label class="form-label">Company <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control form-control-lg form-control-solid"
                                     name="company" placeholder="Company" autocomplete="off" formControlName="company"
                                     [class.is-invalid]="isControlInvalid('company')"
                                     [class.is-valid]="isControlValid('company')" />
+                                <div class="invalid-feedback" *ngIf="controlHasError('required', 'company')">Company is
+                                    required</div>
+                                <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'company')">Company
+                                    should
+                                    have at
+                                    least 5 symbols</div>
                             </div>
                             <!-- end::Company -->
 
                             <!-- begin:: Jobs Title -->
                             <div class="col-lg-3">
-                                <label class="form-label">Job Title</label>
+                                <label class="form-label">Job Title <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control form-control-lg form-control-solid"
                                     name="jobsTitle" placeholder="Job Title" autocomplete="off"
                                     formControlName="jobsTitle" [class.is-invalid]="isControlInvalid('jobsTitle')"
                                     [class.is-valid]="isControlValid('jobsTitle')" />
+
+                                <div class="invalid-feedback" *ngIf="controlHasError('required', 'jobsTitle')">Jobs
+                                    title is
+                                    required</div>
+                                <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'jobsTitle')">Jobs
+                                    title
+                                    should
+                                    have at
+                                    least 5 symbols</div>
+                                <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'jobsTitle')">Jobs
+                                    title
+                                    have
+                                    maximum 100 symbols</div>
                             </div>
                             <!-- end:: Jobs Title -->
 
@@ -106,7 +125,10 @@
                         <div class="form-group row">
                             <!-- begin::Link Of Company -->
                             <div class="col-lg-5">
-                                <label class="form-label">Link Company
+                                <label class="form-label">
+                                    Link Company
+                                    <i style="cursor: pointer;" (click)="goToLink(jobs.linkOfCompany)"
+                                        class="flaticon2-start-up text-primary ml-2"></i>
                                 </label>
                                 <input type="text" class="form-control form-control-lg form-control-solid"
                                     name="linkOfCompany" placeholder="http://..." autocomplete="off"
@@ -367,10 +389,8 @@
                             <!-- end::Note -->
                         </div>
                         <!-- end::Row 6 -->
-
                     </form>
                 </ng-container>
-
             </div>
         </div>
     </perfect-scrollbar>
@@ -378,7 +398,8 @@
 
     <!-- begin::Footer -->
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+        <button [disabled]="formGroup.invalid" type="submit" class="btn btn-primary btn-elevate"
+            (click)="save()">Save</button>
         <button type="button" class="btn btn-light btn-elevate mr-2" (click)="reset()">Cancel</button>
     </div>
     <!-- end::Footer -->
