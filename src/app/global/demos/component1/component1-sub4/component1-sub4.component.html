@@ -98,10 +98,14 @@
                             <div class="col-lg-2">
                                 <label class="form-label"> Annual Salary ($)
                                 </label>
-                                <input type="number" class="form-control form-control-lg form-control-solid"
-                                    name="salary" placeholder="Annual Salary" autocomplete="off"
-                                    formControlName="salary" [class.is-invalid]="isControlInvalid('salary')"
+                                <input pattern="^[0-9]*$" type="number"
+                                    class="form-control form-control-lg form-control-solid" name="salary"
+                                    placeholder="Annual Salary" autocomplete="off" formControlName="salary"
+                                    [class.is-invalid]="isControlInvalid('salary')"
                                     [class.is-valid]="isControlValid('salary')" />
+                                <div class="invalid-feedback" *ngIf="forms.salary.errors?.pattern">
+                                    Salary must be number positive.
+                                </div>
                             </div>
                             <!-- end::Salary -->
 
@@ -135,6 +139,9 @@
                                     formControlName="linkOfCompany"
                                     [class.is-invalid]="isControlInvalid('linkOfCompany')"
                                     [class.is-valid]="isControlValid('linkOfCompany')" />
+                                <div class="invalid-feedback" *ngIf="forms.linkOfCompany.errors?.pattern">
+                                    Link invalid
+                                </div>
                             </div>
                             <!-- end::Link Of Company -->
 
@@ -398,6 +405,8 @@
 
     <!-- begin::Footer -->
     <div class="modal-footer">
+        <button [disabled]="(isJobsExperience() || isJobsWorking() || isJobsRejected())" type="submit"
+            class="btn btn-warning btn-elevate" (click)="saveDeactive()">Deactive</button>
         <button [disabled]="formGroup.invalid" type="submit" class="btn btn-primary btn-elevate"
             (click)="save()">Save</button>
         <button type="button" class="btn btn-light btn-elevate mr-2" (click)="reset()">Cancel</button>

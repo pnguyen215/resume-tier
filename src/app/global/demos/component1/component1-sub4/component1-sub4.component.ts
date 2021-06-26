@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbDateAdapter, NgbDateParserFormatter, NgbModal, NgbTimepickerConfig, NgbTimeStruct, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { BlibsBaseUtilsService } from 'ngx-blibs-api';
@@ -8,18 +8,22 @@ import { merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, delay, distinctUntilChanged, filter, finalize, map, tap } from 'rxjs/operators';
 import { ParamsConfig } from 'src/app/global/configs/paramsConfig/params-config';
 import { ResumeEndpoint } from 'src/app/resume/endpoints/resume-endpoint';
+import { JobsStatus } from 'src/app/resume/model/enums/jobs-status';
+import { JobsTracking } from 'src/app/resume/model/enums/jobs-tracking';
+import { ErrorStatus, ExceptionModel } from 'src/app/resume/model/exception.model';
 import { JobsResponseModel } from 'src/app/resume/model/jobs-response.model';
 import { JobsService } from 'src/app/resume/services/jobs.service';
 import { NotificationService } from 'src/app/resume/services/notification.service';
 import { CustomAdapter, CustomDateParserFormatter } from 'src/app/_metronic/core';
 import { environment } from 'src/environments/environment';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 
-const states = [
-  'PASS',
-  'FAILED',
-  'UNDEFINED'
-];
+const STATE_DEFAULT: ExceptionModel = {
+  code: 200,
+  hasError: false,
+  status: ErrorStatus.SUCCESS,
+  messageError: '',
+  description: ''
+};
 
 @Component({
   selector: 'app-component1-sub4',
@@ -39,6 +43,7 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   @Input() jobs: JobsResponseModel;
+  @Output() state: EventEmitter<ExceptionModel> = new EventEmitter();
 
   isLoading$;
   isLoading = false;
@@ -48,8 +53,13 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
   statusInterview: any;
   noteJobs: any;
   descriptionJobs: any;
+  messagesError: any;
   isTurnOnDescription = false;
   isTurnOnNote = false;
+  dataJobsTracking: any[] = [];
+  dataJobsStatus: any[] = [];
+  dataOriginalJobsStatus: any[] = [];
+  prepareState: ExceptionModel;
   time: NgbTimeStruct = { hour: new Date().getHours(), minute: new Date().getMinutes(), second: new Date().getSeconds() };
   private subscriptions: Subscription[] = [];
   protected HostAPIEndpoint = environment.RESUME_SERVER_URL;
@@ -78,16 +88,16 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
 
     /*
       return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-      map(term => (term === '' ? states
-        : states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+      map(term => (term === '' ? this.dataOriginalJobsStatus
+        : this.dataOriginalJobsStatus.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
     );
     */
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map((term) =>
         (term === ''
-          ? states
-          : states.filter(
+          ? this.dataOriginalJobsStatus
+          : this.dataOriginalJobsStatus.filter(
             (v) => v
           )
         ).slice(0, 10)
@@ -98,9 +108,7 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading$ = this.jobsService.isLoading$;
     this.loadForm();
-    this.statusInterview = this.jobs.nameStatusJobAfterInterview;
-    this.noteJobs = this.jobs.note;
-    this.descriptionJobs = this.jobs.description;
+    this.bindingData();
   }
 
   ngOnDestroy(): void {
@@ -110,6 +118,26 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
   reset() {
     this.formGroup.reset();
     this.modal.dismiss();
+  }
+
+  bindingData() {
+    this.statusInterview = this.jobs.nameStatusJobAfterInterview;
+    this.noteJobs = this.jobs.note;
+    this.descriptionJobs = this.jobs.description;
+    this.dataJobsTracking = this.blibsUtilService.enumToDescriptedArray(JobsTracking);
+    this.dataJobsStatus = this.blibsUtilService.enumToDescriptedArray(JobsStatus);
+    this.pushDataJobsStatus();
+  }
+
+  pushDataJobsStatus() {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.dataJobsStatus.length; i++) {
+      this.dataOriginalJobsStatus.push(this.dataJobsStatus[i].description);
+    }
+  }
+
+  get forms() {
+    return this.formGroup.controls;
   }
 
   isControlValid(controlName: string): boolean {
@@ -157,9 +185,9 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
       description: [this.jobs.description],
       company: [this.jobs.company, Validators.compose([Validators.required, Validators.minLength(5)])],
       jobsTitle: [this.jobs.jobsTitle, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
-      linkOfCompany: [this.jobs.linkOfCompany],
+      linkOfCompany: [this.jobs.linkOfCompany, Validators.compose([Validators.pattern(ParamsConfig.getUrlRegexExpression())])],
       locationOrAddressCompany: [this.jobs.locationOrAddressCompany],
-      salary: [this.jobs.salary],
+      salary: [this.jobs.salary, Validators.compose([Validators.pattern(ParamsConfig.getNumberPositiveRegexExpression())])],
       note: [this.jobs.note],
       linkLogoOfCompany: [this.jobs.linkLogoOfCompany],
       nameStatusJobAfterInterview: [this.jobs.nameStatusJobAfterInterview],
@@ -209,7 +237,7 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
   }
 
   goToLink(url: string) {
-    if (!this.blibsUtilService.areNotNull(url)) {
+    if (!this.blibsUtilService.areNotNull(url) || url === '' || url === undefined) {
       return;
     } else {
       window.open(url, '_blank');
@@ -240,18 +268,45 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
       this.onChangeTimeInForm(this.time)) as unknown as Date;
   }
 
+  isJobsExperience(): boolean {
+    if (this.jobs.jobsTrackingId === this.dataJobsTracking[6].id) {
+      return true;
+    }
+    return false;
+  }
+
+  isJobsWorking(): boolean {
+    if (this.jobs.jobsTrackingId === this.dataJobsTracking[0].id) {
+      return true;
+    }
+    return false;
+  }
+
+  isJobsRejected(): boolean {
+    if (this.jobs.jobsTrackingId === this.dataJobsTracking[5].id) {
+      return true;
+    }
+    return false;
+  }
+
   save() {
     this.prepareJobs();
     this.edit(this.jobs);
   }
 
+  saveDeactive() {
+    this.prepareJobs();
+    this.jobs.deleted = true;
+    this.edit(this.jobs);
+  }
+
   edit(jobs: JobsResponseModel) {
     this.isLoading = true;
+    this.hasError = false;
     const params = new HttpParams().set('id', `${jobs.id}`);
     this.jobsService.setHostApi(this.HostAPIEndpoint);
     this.jobsService.setRelativeUrlApi(this.relativeUrl.concat(ResumeEndpoint.ENDPOINT_JOBS_UPDATE_ONE));
     const isUpdated = this.jobsService.updateWithParams(params, jobs).pipe(
-      delay(1000),
       tap(() => {
         this.modal.close();
       }),
@@ -262,13 +317,23 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
       finalize(() => {
         this.isLoading = false;
       })
-      // tslint:disable-next-line: deprecation
     ).subscribe(response => {
       if (response.header.code === 200) {
         this.jobs = response.data;
+        this.prepareState = STATE_DEFAULT;
+        this.state.emit(this.prepareState);
         this.loadForm();
         return of(this.jobs);
       } else {
+        this.hasError = true;
+        this.prepareState = STATE_DEFAULT;
+        this.prepareState.status = ErrorStatus.ERROR;
+        this.prepareState.code = response.header.code;
+        this.prepareState.messageError = `${jobs.company} : ${response.message}`;
+        this.prepareState.hasError = true;
+        this.prepareState.description = 'Can not update jobs!';
+        this.state.emit(this.prepareState);
+        this.loadForm();
         return of(undefined);
       }
     });

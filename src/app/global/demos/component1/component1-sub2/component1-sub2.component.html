@@ -1,3 +1,21 @@
+<!-- begin::Alert -->
+<div *ngIf="jobsState.hasError && isLoading"
+    class="alert alert-custom alert-notice alert-light-warning fade show ml-2 mr-2 mt-2" role="alert">
+    <div class="alert-icon"><i class="flaticon-warning"></i></div>
+    <div class="alert-text">
+        {{jobsState.messageError}}
+        <br>
+        {{jobsState.description}}
+    </div>
+    <div class="alert-close">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="ki ki-close"></i></span>
+        </button>
+    </div>
+</div>
+<!-- end::Alert -->
+
+<!-- begin::Board -->
 <div class="board">
     <div class="board-wrapper">
         <div class="board-columns" cdkDropListGroup>
@@ -22,7 +40,7 @@
                 <!-- begin::Card -->
                 <div class="tasks-container mt-2" cdkDropList [cdkDropListData]="jobsItem.jobs"
                     (cdkDropListDropped)="dropJobs($event, jobsItem)">
-                    <app-component1-sub3 (click)="viewJobsDetails(task)" cdkDrag *ngFor="let task of jobsItem.jobs"
+                    <app-component1-sub3 (click)="openEditJobs(task)" cdkDrag *ngFor="let task of jobsItem.jobs"
                         [jobsTrackingId]="jobsItem.jobsTrackingIndex" [taskModel]="task">
                     </app-component1-sub3>
                 </div>
@@ -40,3 +58,4 @@
 
     </div>
 </div>
+<!-- end::Board -->

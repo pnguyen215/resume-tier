@@ -6,8 +6,8 @@
                 {{taskModel?.jobsTitle}}
             </p>
         </div>
-
     </div>
+
     <div class="row">
         <div class="col-4">
             <span placement="top"
@@ -20,6 +20,7 @@
             <span placement="left" [ngbTooltip]="logSalary(taskModel?.salary)"
                 [inlineSVG]="'./assets/media/svg/icons/Shopping/Dollar.svg'" cacheSVG="true"
                 class="svg-icon  svg-icon-success menu-icon"></span>
+            {{taskModel?.salary && taskModel?.salary > 0 ? taskModel?.salary : 0}}
         </div>
     </div>
 </div>

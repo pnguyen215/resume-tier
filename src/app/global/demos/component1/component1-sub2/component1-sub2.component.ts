@@ -5,19 +5,27 @@ import { Board } from 'src/app/resume/model/class/board';
 import { JobsTrackingService } from 'src/app/resume/services/jobs-tracking.service';
 import { FormGroup } from '@angular/forms';
 import { BlibsPaginatorState, BlibsSortState, BlibsGroupingState, BlibsBaseUtilsService } from 'ngx-blibs-api';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { JobsTrackingResponseModel } from 'src/app/resume/model/jobs-tracking-response.model';
 import { HttpParams } from '@angular/common/http';
 import { ResumeEndpoint } from 'src/app/resume/endpoints/resume-endpoint';
 import { environment } from 'src/environments/environment';
 import { JobsResponseModel } from 'src/app/resume/model/jobs-response.model';
 import { JobsService } from 'src/app/resume/services/jobs.service';
-import { first } from 'rxjs/operators';
+import { catchError, delay, finalize, first, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component1Sub4Component } from '../component1-sub4/component1-sub4.component';
 import { JobsTracking } from 'src/app/resume/model/enums/jobs-tracking';
 import { Component1Sub5Component } from '../component1-sub5/component1-sub5.component';
+import { ErrorStatus, ExceptionModel } from 'src/app/resume/model/exception.model';
 
+const STATE_DEFAULT: ExceptionModel = {
+  code: 200,
+  hasError: false,
+  status: ErrorStatus.SUCCESS,
+  messageError: '',
+  description: ''
+};
 
 @Component({
   selector: 'app-component1-sub2',
@@ -46,6 +54,7 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
   isLoading: boolean;
   filterGroup: FormGroup;
   searchGroup: FormGroup;
+  jobsState = STATE_DEFAULT;
   protected HostAPIEndpoint = environment.RESUME_SERVER_URL;
   protected relativeUrl = ResumeEndpoint.ENDPOINT_JOBS_TRACKING_URL;
   protected relativeJobsUrl = ResumeEndpoint.ENDPOINT_JOBS_URL;
@@ -146,14 +155,6 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
     this.subscriptions.push(isUpdated);
   }
 
-  viewJobsDetails(jobs: JobsResponseModel) {
-    const modalRef = this.modalService.open(Component1Sub4Component, {
-      size: 'xl',
-      centered: true
-    });
-    modalRef.componentInstance.jobs = jobs;
-  }
-
   goToLink(url: string) {
     window.open(url, '_blank');
   }
@@ -209,6 +210,32 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
       animation: true
     });
     modalRef.componentInstance.jobsTracking = jobsTracking;
+    modalRef.result.then(() => this.fetchJobsTracking());
+  }
+
+  openEditJobs(jobs: JobsResponseModel) {
+    this.isLoading = true;
+    const modalRef = this.modalService.open(Component1Sub4Component, {
+      size: 'xl',
+      centered: true
+    });
+    modalRef.componentInstance.jobs = jobs;
+    const isUpdated = modalRef.componentInstance.state.pipe(
+      tap(() => { }),
+      catchError((errorMessage) => {
+        this.modalService.dismissAll(errorMessage);
+        return of(undefined);
+      }),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    ).subscribe(($e: ExceptionModel) => {
+      this.jobsState = $e;
+      if (this.jobsState.code === 200) {
+        modalRef.result.then(() => this.fetchJobsTracking());
+      }
+    });
+    this.subscriptions.push(isUpdated);
   }
 
 }

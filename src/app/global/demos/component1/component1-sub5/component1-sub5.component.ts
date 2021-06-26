@@ -55,7 +55,6 @@ export class Component1Sub5Component implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading$ = this.jobsService.isLoading$;
     this.loadForm();
-    console.log('Jobs Tracking incoming: ', this.blibsUtilService.toJson(this.jobsTracking));
   }
 
   ngOnDestroy(): void {
@@ -118,7 +117,6 @@ export class Component1Sub5Component implements OnInit, OnDestroy {
       jobsTrackingId: formData.jobsTrackingId
     };
 
-    console.log('Jobs Request: ', this.blibsUtilService.toJson(this.jobsRequest));
   }
 
   save() {

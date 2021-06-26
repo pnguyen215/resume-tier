@@ -17,8 +17,6 @@ export class Component1Sub3Component implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // console.log('Task current: ', this.taskModel);
-    // console.log('Tracking ID: ', this.jobsTrackingId);
   }
 
   logSalary(salary: number) {
