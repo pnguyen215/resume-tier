@@ -12,15 +12,21 @@
         <div class="row">
             Jobs ID:
             <span class="label label-success pulse pulse-warning mr-2 ml-2">
-                <span class="position-relative">{{jobs.id}}</span>
+                <span class="position-relative">{{jobs?.id}}</span>
                 <span class="pulse-ring"></span>
             </span>
         </div>
         <div class="modal-title" id="example-modal-sizes-title-lg">
             <ng-container>
                 <p class="font-weight-bolder">
+                    <span class="label label-inline label-rounded label-outline mr-2 ">
+                        <span class="font-weight-bolder">
+                            Updated at: {{jobs?.modifiedTime | date: 'dd/MM/yyyy hh:mm:ss
+                            a'}}
+                        </span>
+                    </span>
                     <span class="label label-inline pulse pulse-success label-rounded label-outline-success mr-2 ">
-                        <span class="position-relative font-weight-bolder"> {{jobs.jobsTitle}} </span>
+                        <span class="position-relative font-weight-bolder"> {{jobs?.jobsTitle}} </span>
                         <span class="pulse-ring"></span>
                     </span>
                 </p>
@@ -405,7 +411,12 @@
 
     <!-- begin::Footer -->
     <div class="modal-footer">
-        <button [disabled]="(isJobsExperience() || isJobsWorking() || isJobsRejected())" type="submit"
+        <button *ngIf="isJobsDeactive() && jobs" type="submit" class="btn btn-danger btn-elevate"
+            (click)="deleteJobs()">Delete</button>
+        <button *ngIf="isJobsDeactive() && jobs" [disabled]="(isJobsExperience() || isJobsRejected())" type="submit"
+            class="btn btn-success btn-elevate" (click)="saveActive()">Active</button>
+        <button *ngIf="!isJobsDeactive() && jobs"
+            [disabled]="(isJobsExperience() || isJobsWorking() || isJobsRejected())" type="submit"
             class="btn btn-warning btn-elevate" (click)="saveDeactive()">Deactive</button>
         <button [disabled]="formGroup.invalid" type="submit" class="btn btn-primary btn-elevate"
             (click)="save()">Save</button>

@@ -175,38 +175,40 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
   }
 
   loadForm() {
-    this.formGroup = this.fb.group({
-      createdTime: [this.jobs.createdTime],
-      createdBy: [this.jobs.createdBy],
-      modifiedTime: [this.jobs.modifiedTime],
-      modifiedBy: [this.jobs.modifiedBy],
-      deleted: [this.jobs.deleted],
-      archived: [this.jobs.archived],
-      description: [this.jobs.description],
-      company: [this.jobs.company, Validators.compose([Validators.required, Validators.minLength(5)])],
-      jobsTitle: [this.jobs.jobsTitle, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
-      linkOfCompany: [this.jobs.linkOfCompany, Validators.compose([Validators.pattern(ParamsConfig.getUrlRegexExpression())])],
-      locationOrAddressCompany: [this.jobs.locationOrAddressCompany],
-      salary: [this.jobs.salary, Validators.compose([Validators.pattern(ParamsConfig.getNumberPositiveRegexExpression())])],
-      note: [this.jobs.note],
-      linkLogoOfCompany: [this.jobs.linkLogoOfCompany],
-      nameStatusJobAfterInterview: [this.jobs.nameStatusJobAfterInterview],
-      valueStatusJobAfterInterview: [this.jobs.valueStatusJobAfterInterview],
-      interviewTime: [this.changeSymbolState(this.jobs.interviewTime)],
-      interviewResponseTime: [this.changeSymbolState(this.jobs.interviewResponseTime)],
-      startWorkingOn: [this.changeSymbolState(this.jobs.startWorkingOn)],
-      finishWorkOn: [this.changeSymbolState(this.jobs.finishWorkOn)],
-      startProbationaryPeriod: [this.changeSymbolState(this.jobs.startProbationaryPeriod)],
-      endOfProbationaryPeriod: [this.changeSymbolState(this.jobs.endOfProbationaryPeriod)],
-      durationInterviewedPeriod: [this.jobs.durationInterviewedPeriod],
-      durationProbationariesPeriod: [this.jobs.durationProbationariesPeriod],
-      durationWorkingOn: [this.jobs.durationWorkingOn],
-      valueOfDurationInterviewedPeriod: [this.jobs.valueOfDurationInterviewedPeriod],
-      valueOfDurationProbationariesPeriod: [this.jobs.valueOfDurationProbationariesPeriod],
-      valueOfDurationWorkingOn: [this.jobs.valueOfDurationWorkingOn],
-      jobsTrackingId: [this.jobs.jobsTrackingId],
-      likeStatus: [this.jobs.likeStatus]
-    });
+    if (this.jobs) {
+      this.formGroup = this.fb.group({
+        createdTime: [this.jobs.createdTime],
+        createdBy: [this.jobs.createdBy],
+        modifiedTime: [this.jobs.modifiedTime],
+        modifiedBy: [this.jobs.modifiedBy],
+        deleted: [this.jobs.deleted],
+        archived: [this.jobs.archived],
+        description: [this.jobs.description],
+        company: [this.jobs.company, Validators.compose([Validators.required, Validators.minLength(5)])],
+        jobsTitle: [this.jobs.jobsTitle, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
+        linkOfCompany: [this.jobs.linkOfCompany, Validators.compose([Validators.pattern(ParamsConfig.getUrlRegexExpression())])],
+        locationOrAddressCompany: [this.jobs.locationOrAddressCompany],
+        salary: [this.jobs.salary, Validators.compose([Validators.pattern(ParamsConfig.getNumberPositiveRegexExpression())])],
+        note: [this.jobs.note],
+        linkLogoOfCompany: [this.jobs.linkLogoOfCompany],
+        nameStatusJobAfterInterview: [this.jobs.nameStatusJobAfterInterview],
+        valueStatusJobAfterInterview: [this.jobs.valueStatusJobAfterInterview],
+        interviewTime: [this.changeSymbolState(this.jobs.interviewTime)],
+        interviewResponseTime: [this.changeSymbolState(this.jobs.interviewResponseTime)],
+        startWorkingOn: [this.changeSymbolState(this.jobs.startWorkingOn)],
+        finishWorkOn: [this.changeSymbolState(this.jobs.finishWorkOn)],
+        startProbationaryPeriod: [this.changeSymbolState(this.jobs.startProbationaryPeriod)],
+        endOfProbationaryPeriod: [this.changeSymbolState(this.jobs.endOfProbationaryPeriod)],
+        durationInterviewedPeriod: [this.jobs.durationInterviewedPeriod],
+        durationProbationariesPeriod: [this.jobs.durationProbationariesPeriod],
+        durationWorkingOn: [this.jobs.durationWorkingOn],
+        valueOfDurationInterviewedPeriod: [this.jobs.valueOfDurationInterviewedPeriod],
+        valueOfDurationProbationariesPeriod: [this.jobs.valueOfDurationProbationariesPeriod],
+        valueOfDurationWorkingOn: [this.jobs.valueOfDurationWorkingOn],
+        jobsTrackingId: [this.jobs.jobsTrackingId],
+        likeStatus: [this.jobs.likeStatus]
+      });
+    }
   }
 
   private prepareJobs() {
@@ -269,22 +271,42 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
   }
 
   isJobsExperience(): boolean {
-    if (this.jobs.jobsTrackingId === this.dataJobsTracking[6].id) {
-      return true;
+    if (this.jobs) {
+      if (this.jobs.jobsTrackingId === this.dataJobsTracking[6].id) {
+        return true;
+      }
+      return false;
     }
     return false;
+
   }
 
   isJobsWorking(): boolean {
-    if (this.jobs.jobsTrackingId === this.dataJobsTracking[0].id) {
-      return true;
+    if (this.jobs) {
+      if (this.jobs.jobsTrackingId === this.dataJobsTracking[0].id) {
+        return true;
+      }
+      return false;
     }
     return false;
   }
 
   isJobsRejected(): boolean {
-    if (this.jobs.jobsTrackingId === this.dataJobsTracking[5].id) {
-      return true;
+    if (this.jobs) {
+      if (this.jobs.jobsTrackingId === this.dataJobsTracking[5].id) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
+  isJobsDeactive(): boolean {
+    if (this.jobs) {
+      if (this.jobs.deleted) {
+        return true;
+      }
+      return false;
     }
     return false;
   }
@@ -298,6 +320,17 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
     this.prepareJobs();
     this.jobs.deleted = true;
     this.edit(this.jobs);
+  }
+
+  saveActive() {
+    this.prepareJobs();
+    this.jobs.deleted = false;
+    this.edit(this.jobs);
+  }
+
+  deleteJobs() {
+    this.prepareJobs();
+    this.delete(this.jobs);
   }
 
   edit(jobs: JobsResponseModel) {
@@ -338,6 +371,46 @@ export class Component1Sub4Component implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(isUpdated);
+  }
+
+  delete(jobs: JobsResponseModel) {
+    this.isLoading = true;
+    this.hasError = false;
+    const params = new HttpParams().set('id', `${jobs.id}`);
+    this.jobsService.setHostApi(this.HostAPIEndpoint);
+    this.jobsService.setRelativeUrlApi(this.relativeUrl.concat(ResumeEndpoint.ENDPOINT_JOBS_DELETE_ONE));
+    const isDeleted = this.jobsService.__createHttps('delete', params).pipe(
+      tap(() => {
+        this.modal.close();
+      }),
+      catchError((errorMessage) => {
+        this.modal.dismiss(errorMessage);
+        return of(undefined);
+      }),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    ).subscribe(response => {
+      if (response.header.code === 200) {
+        this.jobs = response.data;
+        this.prepareState = STATE_DEFAULT;
+        this.state.emit(this.prepareState);
+        this.loadForm();
+        return of(this.jobs);
+      } else {
+        this.hasError = true;
+        this.prepareState = STATE_DEFAULT;
+        this.prepareState.status = ErrorStatus.ERROR;
+        this.prepareState.code = response.header.code;
+        this.prepareState.messageError = `${jobs.company} : ${response.message}`;
+        this.prepareState.hasError = true;
+        this.prepareState.description = 'Can not delete jobs!';
+        this.state.emit(this.prepareState);
+        this.loadForm();
+        return of(undefined);
+      }
+    });
+    this.subscriptions.push(isDeleted);
   }
 
   openEditDescription(isActive: boolean) {

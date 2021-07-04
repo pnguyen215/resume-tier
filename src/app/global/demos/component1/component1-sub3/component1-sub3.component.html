@@ -1,4 +1,6 @@
 <div class="container is-full custom-card">
+
+    <!-- begin::Row 1 -->
     <div class="columns">
         <div class="md column is-6 font-weight-bolder text-truncate">{{taskModel?.company}}</div>
         <div class="column is-2 is-offset-4">
@@ -7,7 +9,9 @@
             </p>
         </div>
     </div>
+    <!-- end::Row 1 -->
 
+    <!-- begin::Row 2 -->
     <div class="row">
         <div class="col-4">
             <span placement="top"
@@ -23,4 +27,19 @@
             {{taskModel?.salary && taskModel?.salary > 0 ? taskModel?.salary : 0}}
         </div>
     </div>
+    <!-- end::Row 1 -->
+
+    <!-- begin::Row 3 -->
+    <div class="row mt-1">
+        <div placement="top" [ngbTooltip]="taskModel?.createdTime | date: 'dd/MM/yyyy hh:mm:ss a'"
+            class="col text-left">
+            <span class="label label-pill label-inline"> {{handleTimeDiff(taskModel?.createdTime)}} </span>
+        </div>
+        <div placement="top" ngbTooltip="Status Job" *ngIf="taskModel?.nameStatusJobAfterInterview" class="text-right">
+            <span [class]="handleStyleStatusJob(taskModel?.valueStatusJobAfterInterview)">
+                {{taskModel?.nameStatusJobAfterInterview | lowercase}}
+            </span>
+        </div>
+    </div>
+    <!-- end::Row 3 -->
 </div>

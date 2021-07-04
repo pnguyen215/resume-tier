@@ -47,6 +47,7 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
     isArchived: false,
     isDeleted: false
   };
+  checkSwitch = false;
   slicePart = this.pageRequestModel.pageSize;
   paginator: BlibsPaginatorState;
   sorting: BlibsSortState;
@@ -236,6 +237,16 @@ export class Component1Sub2Component implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(isUpdated);
+  }
+
+  switchMode(checked: boolean) {
+    this.checkSwitch = checked;
+    this.pageRequestModel.isDeleted = this.checkSwitch;
+    this.fetchJobsTrackingInit();
+  }
+
+  submitModeTypeExport($event: number) {
+    console.log('Mode type Export C1S2: ', $event);
   }
 
 }

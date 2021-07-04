@@ -291,7 +291,7 @@ export const DynamicAsideMenuConfig = {
       page: '/demos/component1',
       submenu: [
         {
-          title: 'Component1-Sub1',
+          title: 'Roadmap Jobs',
           page: '/demos/component1/component1-sub1'
         },
         {

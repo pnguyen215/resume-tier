@@ -1,0 +1,37 @@
+<div ngbDropdown placement="bottom-right" class="dropdown dropdown-inline" title="Quick actions">
+    <a ngbDropdownToggle
+        class="btn btn-transparent-white btn-sm text-dark font-weight-bolder dropdown-toggle px-5 dropdown-toggle btn btn-transparent"
+        aria-haspopup="true" aria-expanded="false">
+        Export
+    </a>
+    <div ngbDropdownMenu class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+        <!--begin::Navigation-->
+        <ul class="navi navi-hover">
+            <li (click)="handleModeType(1)" class="navi-item">
+                <a class="navi-link cursor-pointer">
+                    <span class="navi-icon">
+                        <i class="far fa-file-excel"></i>
+                    </span>
+                    <span class="navi-text">Excel</span>
+                </a>
+            </li>
+            <li (click)="handleModeType(2)" class="navi-item">
+                <a class="navi-link cursor-pointer">
+                    <span class="navi-icon">
+                        <i class="fas fa-file-csv"></i>
+                    </span>
+                    <span class="navi-text">CSV</span>
+                </a>
+            </li>
+            <li (click)="handleModeType(3)" class="navi-item">
+                <a class="navi-link cursor-pointer">
+                    <span class="navi-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span class="navi-text">PDF</span>
+                </a>
+            </li>
+        </ul>
+        <!--end::Navigation-->
+    </div>
+</div>

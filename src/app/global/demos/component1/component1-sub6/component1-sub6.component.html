@@ -1,0 +1,25 @@
+<div class="example-preview">
+    <div>
+        <div class="row">
+            <!-- begin::Action -->
+            <div class="ml-2 mr-2">
+                <span class="switch switch-sm switch-icon {{!checkSwitch ? 'switch-success' : 'switch-danger'}} ">
+                    <p class="mr-2 font-weight-bolder {{!checkSwitch ? 'text-success' : 'text-danger'}} ">
+                        {{!checkSwitch ? 'Active' : 'Deactive'}}
+                    </p>
+                    <label class="mb-3">
+                        <input (click)="switchMode(!checkSwitch)" type="checkbox" name="select" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <!-- end::Action -->
+
+            <!-- begin::Export -->
+            <div class="ml-2">
+                <app-component1-sub7 (modeType)="submitModeType($event)"></app-component1-sub7>
+            </div>
+            <!-- end::Export -->
+        </div>
+    </div>
+</div>

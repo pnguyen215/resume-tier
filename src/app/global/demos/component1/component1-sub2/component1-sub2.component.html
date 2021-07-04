@@ -1,3 +1,8 @@
+<!-- begin::Header -->
+<app-component1-sub6 (mode)="switchMode($event)" (modeTypeExport)="submitModeTypeExport($event)">
+</app-component1-sub6>
+<!-- end::Header -->
+
 <!-- begin::Alert -->
 <div *ngIf="jobsState.hasError && isLoading"
     class="alert alert-custom alert-notice alert-light-warning fade show ml-2 mr-2 mt-2" role="alert">
@@ -47,7 +52,7 @@
                 <!-- end::Card -->
 
                 <!-- begin::Add Job -->
-                <button (click)="openAddJobs(jobsItem)" type="button"
+                <button *ngIf="!checkSwitch" (click)="openAddJobs(jobsItem)" type="button"
                     class="btn btn-light btn-lg btn-block btn-sm font-weight-bolder">
                     Add Job
                 </button>

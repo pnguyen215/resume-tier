@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng serve --open --port 4202",
     "build": "ng build --prod --aot --vendor-chunk --common-chunk --output-path pre-angular-tier --buildOptimizer",
+    "build:dev": "ng build --aot --vendor-chunk --common-chunk --output-path pre-angular-tier --buildOptimizer",
     "deploy": "ng build --prod --output-path pre-angular-tier && firebase deploy",
     "test": "ng test",
     "lint": "ng lint",
