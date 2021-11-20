@@ -1,6 +1,6 @@
 {
-  "name": "metronic-angular-demo1",
-  "version": "7.1.7",
+  "name": "resume-tier",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng serve --open --port 4202",

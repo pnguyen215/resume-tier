@@ -135,7 +135,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.listUserSuccessResponse.next(response);
           const signInModel = new SignInResponse(response);
           this.blibsStorageService.set(CONST.Storage.TOKEN, signInModel.data);
-          this.onSubmitUserDetail();
+          // this.onSubmitUserDetail();
           this.submitDefault();
         } else {
           this.listUserFailedResponse.next(response);

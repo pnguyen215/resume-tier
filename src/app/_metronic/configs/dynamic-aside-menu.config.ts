@@ -301,7 +301,7 @@ export const DynamicAsideMenuConfig = {
       ]
     },
     {
-      title: 'Component2',
+      title: 'Accounts',
       bullet: 'dot',
       icon: 'flaticon2-list-2',
       svg: './assets/media/svg/icons/General/Fire.svg',
@@ -310,11 +310,11 @@ export const DynamicAsideMenuConfig = {
       page: '/demos/component2',
       submenu: [
         {
-          title: 'Component2-Sub1',
+          title: 'SID',
           page: '/demos/component2/component2-sub1'
         },
         {
-          title: 'Component2-Sub2',
+          title: 'As-SID',
           page: '/demos/component2/component2-sub2'
         }
       ]

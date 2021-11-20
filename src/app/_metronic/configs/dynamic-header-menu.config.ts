@@ -314,18 +314,18 @@ export const DynamicHeaderMenuConfig = {
           ]
         },
         {
-          title: 'Component2',
+          title: 'Accounts',
           bullet: 'dot',
           icon: 'flaticon-business',
           permission: 'accessToDemosModule',
           page: '/demos/component2',
           submenu: [
             {
-              title: 'Component2-Sub1',
+              title: 'SID',
               page: '/demos/component2/component2-sub1'
             },
             {
-              title: 'Component2-Sub2',
+              title: 'As-SID',
               page: '/demos/component2/component2-sub2'
             }
           ]

@@ -4,6 +4,6 @@ export const environment = {
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   apiUrl: 'api',
-  AUTH_SERVER_URL: 'http://localhost:8099',
+  AUTH_SERVER_URL: 'http://localhost:8091',
   RESUME_SERVER_URL: 'http://localhost:8091'
 };
